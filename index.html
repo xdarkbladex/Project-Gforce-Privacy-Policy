@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        .animated-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            overflow: hidden;
+        }
+        .line {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: purple;
+            opacity: 0.7;
+            animation: moveLines linear infinite;
+        }
+        @keyframes moveLines {
+            from { transform: translateY(100vh); }
+            to { transform: translateY(-10vh); }
+        }
+        .container {
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(255, 0, 255, 0.2);
+            border-radius: 10px;
+            text-align: center;
+            animation: fadeIn 1.5s ease-in-out;
+            position: relative;
+            z-index: 2;
+            color: white;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1, h2 {
+            color: #ff00ff;
+        }
+        p {
+            color: #ddd;
+            line-height: 1.6;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #999;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            background: #800080;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        button:hover {
+            background: #a000a0;
+        }
+        @keyframes shatter {
+            to {
+                transform: translate(var(--x), var(--y)) rotate(var(--r));
+                opacity: 0;
+            }
+        }
+        @keyframes explosion {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+        @keyframes blackHole {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(100);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+        .black-hole {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: black;
+            border-radius: 50%;
+            animation: blackHole 1s forwards;
+            z-index: 10;
+        }
+        .thank-you {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 30px;
+            color: #ff00ff;
+            font-weight: bold;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+            z-index: 11;
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-background"></div>
+    <script>
+        for (let i = 0; i < 30; i++) {
+            let line = document.createElement("div");
+            line.classList.add("line");
+            line.style.left = Math.random() * 100 + "vw";
+            line.style.animationDuration = (Math.random() * 5 + 3) + "s";
+            document.querySelector(".animated-background").appendChild(line);
+        }
+
+        function shatterPage() {
+            let elements = document.body.children; // Grab all elements on the page
+            Array.from(elements).forEach(element => {
+                let rect = element.getBoundingClientRect();
+                element.style.visibility = "hidden";
+                
+                for (let i = 0; i < 10; i++) {
+                    let piece = document.createElement("div");
+                    piece.style.position = "absolute";
+                    piece.style.left = rect.left + (i * 10) + "px";
+                    piece.style.top = rect.top + "px";
+                    piece.style.color = "white";
+                    piece.style.fontSize = "16px";
+                    piece.style.transition = "transform 0.6s ease-out, opacity 0.6s ease-out";
+                    piece.style.setProperty('--x', (Math.random() - 0.5) * 200 + 'px');
+                    piece.style.setProperty('--y', (Math.random() - 0.5) * 200 + 'px');
+                    piece.style.setProperty('--r', (Math.random() * 360) + 'deg');
+                    document.body.appendChild(piece);
+                    setTimeout(() => {
+                        piece.style.transform = `translate(${piece.style.getPropertyValue('--x')}, ${piece.style.getPropertyValue('--y')}) rotate(${piece.style.getPropertyValue('--r')})`;
+                        piece.style.opacity = "0";
+                    }, 50);
+                    setTimeout(() => piece.remove(), 1000);
+                }
+
+                let explosion = document.createElement("div");
+                explosion.style.position = "absolute";
+                explosion.style.left = rect.left + "px";
+                explosion.style.top = rect.top + "px";
+                explosion.style.width = rect.width + "px";
+                explosion.style.height = rect.height + "px";
+                explosion.style.background = "radial-gradient(circle, rgba(255, 255, 255, 0.5), rgba(255, 0, 255, 0))";
+                explosion.style.borderRadius = "50%";
+                explosion.style.animation = "explosion 1s forwards";
+                document.body.appendChild(explosion);
+                setTimeout(() => explosion.remove(), 1000);
+            });
+
+            // Create the black hole and thank you text
+            let blackHole = document.createElement("div");
+            blackHole.classList.add("black-hole");
+            document.body.appendChild(blackHole);
+
+            let thankYouText = document.createElement("div");
+            thankYouText.classList.add("thank-you");
+            thankYouText.innerText = "Thank You";
+            document.body.appendChild(thankYouText);
+        }
+    </script>
+    <div class="container">
+        <h1>Privacy Policy</h1>
+        <p>Your privacy is important to us. This privacy policy explains how we collect, use, and protect your information.</p>
+        
+        <h2>Information We Collect</h2>
+        <p>We may collect personal information such as your name, email address, and usage data when you interact with our website.</p>
+        
+        <h2>How We Use Your Information</h2>
+        <p>We use your information to improve our website, provide customer support, and ensure a better user experience.</p>
+        
+        <h2>Data Protection</h2>
+        <p>We take reasonable measures to protect your personal information from unauthorized access, disclosure, or alteration.</p>
+        
+        <h2>Cookies</h2>
+        <p>We may use cookies to enhance your experience on our site. You can disable cookies in your browser settings.</p>
+        
+        <h2>Changes to This Policy</h2>
+        <p>We may update this privacy policy from time to time. Please check back periodically for any changes.</p>
+        
+        <h2>Contact Us</h2>
+        <p>If you have any questions about this privacy policy, please contact us at <a href="mailto:snwba0866@gmail.com?subject=Privacy Policy Inquiry&body=Hi, I have a question about your privacy policy..." style="color: #ff00ff;">snwba0866@gmail.com</a>.</p>
+        
+        <button onclick="shatterPage()">Acknowledge</button>
+        
+        <div class="footer">&copy; 2025 TangoMangoStudios. All rights reserved.</div>
+    </div>
+</body>
+</html>
